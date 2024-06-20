@@ -3,7 +3,15 @@
     Created on : Jun 6, 2024, 6:43:15 p.m.
     Author     : gurdeepsingh
 */
-/*body{
-background-color: royalblue
+body{
 }
-*/
+
+.primary-background{
+    background:#880E4F!important;
+}
+.secondary-background{
+    background:#212121!important;
+}
+
+
+
