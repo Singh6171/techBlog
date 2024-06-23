@@ -5,22 +5,23 @@
 package com.tech.blog.servlets;
 
 import com.tech.blog.dao.UserDao;
+import com.tech.blog.entities.Message;
 import com.tech.blog.entities.User;
 import com.tech.blog.helper.ConnectionProvider;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 /**
  *
  * @author gurdeepsingh
  */
-@MultipartConfig
-public class Registration extends HttpServlet {
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,29 +36,22 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            //all data from form
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Logout</title>");            
+            out.println("</head>");
+            out.println("<body>");
 
-            String checkBox = request.getParameter("checkBox");
-            if (checkBox == null) {
-                out.println("Terms and Conditions not agreed. Please check box to continue");
-            } else {
-                String name = request.getParameter("userName");
-                String email = request.getParameter("userEmail");
-                String password = request.getParameter("userPassword");
-                String gender = request.getParameter("userGender");
-
-                User user = new User(name, email, password, gender);
-
-                UserDao dao = new UserDao(ConnectionProvider.getCon());
-                if (dao.saveUser(user)) {
-                    out.println("Registration Successful");
-                } else {
-                    out.println("Error: User nor Saved");
-
-                }
-
-            }
+            HttpSession hs= request.getSession();
+            hs.removeAttribute("currentUser");
+            Message m = new Message("Logged out Successfully", "success", "alert-success");
+            hs.setAttribute("message", m);
+            response.sendRedirect("loginPage.jsp");
             
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

@@ -31,12 +31,12 @@
         <%@include file = "navBar.jsp" %>
 
         <!--banner-->
-        <div class="container-fluid p-0 m-0 banner-background">
+        <div class="container-fluid p-0 m-0 banner-background ">
             <div class="jumbotron primary-background text-white">
-                <div class="container">
+                <div class="container" >
                     <h3>Welcome Coders,</h3>
                     <p>This is the place of technology, where you can learn and teach technology</p>
-                    <button class="btn btn-outline-light btn-lg"><span class="fa fa fa-user-plus"></span> Start, It's Free</button>
+                    <button class="btn btn-outline-light btn-lg"><span class="fa fa fa-user-plus"></span> Start, It's Free !</button>
                     <a href="loginPage.jsp" class="btn btn-outline-light btn-lg"><span class="fa fa-user-circle fa-spin"></span> Sign in </a>
 
                 </div>

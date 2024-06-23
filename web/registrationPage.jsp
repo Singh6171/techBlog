@@ -34,7 +34,7 @@
                             <div class="card-header text-center primary-background text-white">
                                 <span class=" 	fa fa-user-plus"></span>
                                 <br>
-                                <p>Register Here</p>
+                                <p>Registration Form</p>
                             </div>
                             <div class="card-body">
                                 <form id="registrationForm" action="Registration" method="POST">

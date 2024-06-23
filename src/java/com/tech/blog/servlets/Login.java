@@ -5,13 +5,14 @@
 package com.tech.blog.servlets;
 
 import com.tech.blog.dao.UserDao;
+import com.tech.blog.entities.Message;
 import com.tech.blog.entities.User;
 import com.tech.blog.helper.ConnectionProvider;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -19,8 +20,7 @@ import java.io.PrintWriter;
  *
  * @author gurdeepsingh
  */
-@MultipartConfig
-public class Registration extends HttpServlet {
+public class Login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,29 +35,37 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            //all data from form
+            /* TODO output your page here. You may use following sample code. */
 
             String checkBox = request.getParameter("checkBox");
             if (checkBox == null) {
-                out.println("Terms and Conditions not agreed. Please check box to continue");
+                Message message = new Message("Terms and Conditions not agreed. Please check box to continue", "error", "alert-danger");
+                response.sendRedirect("loginPage.jsp");
+                HttpSession hs = request.getSession();
+                hs.setAttribute("message", message);
             } else {
-                String name = request.getParameter("userName");
                 String email = request.getParameter("userEmail");
                 String password = request.getParameter("userPassword");
-                String gender = request.getParameter("userGender");
-
-                User user = new User(name, email, password, gender);
 
                 UserDao dao = new UserDao(ConnectionProvider.getCon());
-                if (dao.saveUser(user)) {
-                    out.println("Registration Successful");
+
+                User user = dao.getUserByEmailAndPassword(email, password);
+
+                if (user == null) {
+                    // out.println("Invalid Email or Password, Please try again!");
+                    Message message = new Message("Invalid Email or Password, Please try again!", "error", "alert-danger");
+                    response.sendRedirect("loginPage.jsp");
+                    HttpSession hs = request.getSession();
+                    hs.setAttribute("message", message);
                 } else {
-                    out.println("Error: User nor Saved");
+                    HttpSession hs = request.getSession();
+                    hs.setAttribute("currentUser", user);
+                    response.sendRedirect("profile.jsp");
 
                 }
 
             }
-            
+
         }
     }
 
